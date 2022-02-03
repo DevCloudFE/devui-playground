@@ -65,7 +65,7 @@ export class ReplStore implements Store {
 
   constructor({
     serializedState = '',
-    versions = { vue: '3.2.29', devui: '1.0.0-beta.14' },
+    versions = { Vue: '3.2.29', DevUI: 'latest' },
   }: ReplStoreParam) {
     let files = getInitFiles(serializedState)
     let mainFile = files[defaultFile] ? defaultFile : Object.keys(files)[0]
@@ -90,7 +90,7 @@ export class ReplStore implements Store {
   }
 
   async initStore() {
-    await this.setVueVersion(this.versions.vue)
+    await this.setVueVersion(this.versions.Vue)
     this.state.files[setupDevui] = new File(
       setupDevui,
       devuiCode,
@@ -204,17 +204,17 @@ export class ReplStore implements Store {
 
   public async setVersion(key: VersionKey, version: string) {
     switch (key) {
-      case 'devui':
+      case 'DevUI':
         await this.setDevuiVersion(version)
         break
-      case 'vue':
+      case 'Vue':
         await this.setVueVersion(version)
         break
     }
   }
 
   private async setDevuiVersion(version: string) {
-    this.versions.devui = version
+    this.versions.DevUI = version
     this.addDeps()
   }
 
@@ -227,7 +227,7 @@ export class ReplStore implements Store {
 
     this.state.vueRuntimeURL = runtimeDom
 
-    this.versions.vue = version
+    this.versions.Vue = version
 
     this.addDeps()
   }

@@ -1,17 +1,17 @@
 import { VersionRecord } from "@/types"
 
 export const genImportsMap = (versions: VersionRecord) => {
-  const { vue, devui } = versions
+  const { Vue, DevUI } = versions
 
   return {
     'vue-devui': {
       pkg: 'vue-devui',
-      version: devui,
+      version: DevUI,
       file: '/vue-devui.es.js',
     },
     vue: {
       pkg: 'vue',
-      version: vue,
+      version: Vue,
       file: '/dist/vue.esm-browser.js',
     },
   }

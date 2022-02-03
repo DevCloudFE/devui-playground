@@ -30,30 +30,13 @@ export const defaultCode = `<template>
   <h1>
     Hello, DevUI!
   </h1>
-  <d-button
-    :showLoading="showLoading"
-    @click="handleClick">
-    click me!
-  </d-button>
+  <d-button style="margin-right: 8px">Primary</d-button>
+  <d-button :disabled="true">Disabled</d-button>
 </template>
 
 <script setup lang="ts">
 import { setupDevui } from './devui.js'
-import { ref, onBeforeUnmount } from 'vue'
 
 // don't remove
 setupDevui()
-
-const showLoading = ref(false)
-const timerId = ref<number | null>(null)
-const handleClick = () => {
-  showLoading.value = true;
-  timerId.value = window?.setTimeout(() => {
-    showLoading.value = false;
-  }, 2000);
-}
-
-onBeforeUnmount(() => {
-  timerId.value && window?.clearTimeout(timerId.value)
-})
 </script>`

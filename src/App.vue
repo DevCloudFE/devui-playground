@@ -4,18 +4,40 @@
       <div class="ixp-height-full"></div>
     </IxSpin>
     <div class="flex flex-col ixp-height-full">
-      <Header></Header>
-      <Container class="grow" @init-success="onInitSuccess()"></Container>
+      <Header :store="store"></Header>
+      <Repl
+        class="grow"
+        auto-resize
+        show-compile-output
+        :store="store"
+        :clear-console="false"></Repl>
     </div>
   </IxMessageProvider>
 </template>
 
 <script lang="ts" setup>
+import { ReplStore } from '@/repl-store';
+import { Repl } from '@vue/repl'
+
 const isLoading = ref(true)
 
-const onInitSuccess = () => {
+// experimental features
+// import type {  SFCOptions } from '@vue/repl'
+// const sfcOptions: SFCOptions = {
+//   script: {
+//     reactivityTransform: true,
+//   },
+// }
+
+const store = new ReplStore({
+  serializedState: location.hash.slice(1),
+})
+
+store.initStore().then(() => {
   isLoading.value = false
-}
+})
+
+watchEffect(() => history.replaceState({}, '', store.serialize()))
 </script>
 
 <style scoped>
