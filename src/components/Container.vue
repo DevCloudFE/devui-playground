@@ -18,9 +18,15 @@ import { Repl } from '@vue/repl'
 //   },
 // }
 
+const emits = defineEmits(['init-success'])
+
 const store = new ReplStore({
   serializedState: location.hash.slice(1),
 })
-store.initStore()
 
+store.initStore().then(() => {
+  emits('init-success')
+})
+
+watchEffect(() => history.replaceState({}, '', store.serialize()))
 </script>

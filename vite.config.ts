@@ -28,11 +28,11 @@ export default defineConfig(async () => {
       AutoImport({
         imports: ['vue', '@vueuse/core'],
         resolvers: [IduxResolver()],
-        dts: path.resolve(`${pathSrc}/types`, 'auto-imports.d.ts'),
+        dts: path.resolve(`${pathSrc}/types/dts`, 'auto-imports.d.ts'),
       }),
       Components({
         resolvers: [IduxResolver()],
-        dts: path.resolve(`${pathSrc}/types`, 'components.d.ts'),
+        dts: path.resolve(`${pathSrc}/types/dts`, 'components.d.ts'),
       }),
       Unocss({
         presets: [presetUno()],

@@ -2,8 +2,8 @@ import { reactive, watchEffect } from 'vue'
 import { compileFile, File } from '@vue/repl'
 import type { Store, SFCOptions, StoreState, OutputModes } from '@vue/repl'
 import type { VersionKey, VersionRecord, ReplStoreParam, PendingCompiler } from '@/types'
-import { defaultCode, defaultFile, devuiCode, genImportsMap } from '@/const'
-import { decodeData, genLink } from '@/utils'
+import { defaultCode, defaultFile, devuiCode, genImportsMap, setupDevui } from '@/const'
+import { decodeData, encodeData, genLink } from '@/utils'
 
 const getInitFiles = (serializedState: string = '') => {
   let files: StoreState['files'] = {
@@ -91,8 +91,8 @@ export class ReplStore implements Store {
 
   async initStore() {
     await this.setVueVersion(this.versions.vue)
-    this.state.files['devui.js'] = new File(
-      'devui.js',
+    this.state.files[setupDevui] = new File(
+      setupDevui,
       devuiCode,
       true
     )
@@ -122,7 +122,7 @@ export class ReplStore implements Store {
 
   // 删除文件
   public deleteFile(filename: string) {
-    if (window.confirm(`Confirm to delete ${filename}?`)) {
+    if (window?.confirm(`Confirm to delete ${filename}?`)) {
       if (this.state.activeFile.filename === filename) {
         this.state.activeFile = this.state.files[this.state.mainFile]
       }
@@ -130,7 +130,31 @@ export class ReplStore implements Store {
     }
   }
 
-  // 设置import map
+  private getFiles() {
+    const exported: Record<string, string> = {}
+    for (const filename of Object.keys(this.state.files)) {
+      exported[filename] = this.state.files[filename].code
+    }
+    return exported
+  }
+
+  async setFiles(newFiles: Record<string, string>, mainFile = defaultFile) {
+    const files: Record<string, File> = {}
+    if (mainFile === defaultFile && !newFiles[mainFile]) {
+      files[mainFile] = new File(mainFile, defaultCode)
+    }
+    for (const [filename, file] of Object.entries(newFiles)) {
+      files[filename] = new File(filename, file)
+    }
+    for (const file of Object.values(files)) {
+      await compileFile(this, file)
+    }
+    this.state.mainFile = mainFile
+    this.state.files = files
+    this.initImportMap()
+    this.setActive(mainFile)
+  }
+
   private setImportMap(map: { imports: Record<string, string> }) {
     try {
       this.state.files['import-map.json'].code = JSON.stringify(map, null, 2)
@@ -141,13 +165,21 @@ export class ReplStore implements Store {
     }
   }
 
-  /**
-   * remove default deps
-   */
-  // private simplifyImportMaps() {
-  // }
-
   serialize() {
+    const arr = Object
+      .entries(this.getFiles())
+      .filter(([file]) => file !== setupDevui)
+      .map(([file, content]) => {
+        if (file === 'import-map.json') {
+          try {
+            const importMap = JSON.stringify(this.getImportMap())
+            return [file, importMap]
+          } catch { }
+        }
+        return [file, content]
+      })
+    const data = JSON.stringify(Object.fromEntries(arr))
+    return `#${encodeData(data)}`
   }
 
   getImportMap() {

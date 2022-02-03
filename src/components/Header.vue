@@ -1,7 +1,7 @@
 <template>
   <div class="flex justify-between p-2">
     <h1 class="text-base">
-      Devui Playground
+      DevUI Playground
     </h1>
     <ix-space>
       <ix-button mode="text" @click="onShareClick">
