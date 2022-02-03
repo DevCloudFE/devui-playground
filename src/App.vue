@@ -1,19 +1,13 @@
 <template>
-  <IxDrawerProvider>
-    <IxModalProvider>
-      <IxNotificationProvider>
-        <IxMessageProvider>
-          <IxSpin tip="loading..." v-if="isLoading">
-            <div class="ixp-height-full"></div>
-          </IxSpin>
-          <div class="flex flex-col ixp-height-full">
-            <Header></Header>
-            <Container class="grow" @init-success="onInitSuccess()"></Container>
-          </div>
-        </IxMessageProvider>
-      </IxNotificationProvider>
-    </IxModalProvider>
-  </IxDrawerProvider>
+  <IxMessageProvider>
+    <IxSpin tip="loading..." v-if="isLoading">
+      <div class="ixp-height-full"></div>
+    </IxSpin>
+    <div class="flex flex-col ixp-height-full">
+      <Header></Header>
+      <Container class="grow" @init-success="onInitSuccess()"></Container>
+    </div>
+  </IxMessageProvider>
 </template>
 
 <script lang="ts" setup>
