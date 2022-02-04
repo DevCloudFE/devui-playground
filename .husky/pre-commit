@@ -1,0 +1,4 @@
+#!/bin/sh
+. "$(dirname "$0")/_/husky.sh"
+
+pnpm run ls-lint && pnpm exec lint-staged -c .husky/lint-stagedrc.js
