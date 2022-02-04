@@ -1,22 +1,26 @@
 <template>
   <IxMessageProvider>
-    <IxSpin tip="loading..." v-if="isLoading">
-      <div class="ixp-height-full"></div>
+    <IxSpin
+      v-if="isLoading"
+      tip="loading..."
+    >
+      <div class="ixp-height-full" />
     </IxSpin>
     <div class="flex flex-col ixp-height-full">
-      <Header :store="store"></Header>
+      <Header :store="store" />
       <Repl
         class="grow"
         auto-resize
         show-compile-output
         :store="store"
-        :clear-console="false"></Repl>
+        :clear-console="false"
+      />
     </div>
   </IxMessageProvider>
 </template>
 
 <script lang="ts" setup>
-import { ReplStore } from '@/repl-store';
+import { ReplStore } from '@/repl-store'
 import { Repl } from '@vue/repl'
 
 const isLoading = ref(true)

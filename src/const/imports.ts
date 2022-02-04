@@ -1,4 +1,4 @@
-import { VersionRecord } from "@/types"
+import { VersionRecord } from '@/types'
 
 export const genImportsMap = (versions: VersionRecord) => {
   const { Vue, DevUI } = versions

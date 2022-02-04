@@ -1,17 +1,17 @@
 import { reactive, watchEffect } from 'vue'
-import { compileFile, File } from '@vue/repl'
-import type { Store, SFCOptions, StoreState, OutputModes } from '@vue/repl'
-import type { VersionKey, VersionRecord, ReplStoreParam, PendingCompiler } from '@/types'
+import { File, compileFile } from '@vue/repl'
+import type { OutputModes, SFCOptions, Store, StoreState } from '@vue/repl'
+import type { PendingCompiler, ReplStoreParam, VersionKey, VersionRecord } from '@/types'
 import { defaultCode, defaultFile, devuiCode, genImportsMap, setupDevui } from '@/const'
 import { decodeData, encodeData, genLink } from '@/utils'
 
-const getInitFiles = (serializedState: string = '') => {
+const getInitFiles = (serializedState = '') => {
   let files: StoreState['files'] = {
     [defaultFile]: new File(defaultFile, defaultCode)
   }
   if (serializedState) {
     try {
-      files = {};
+      files = {}
       const res = JSON.parse(decodeData(serializedState))
       for (const filename of Object.keys(res)) {
         files[filename] = new File(filename, res[filename])
@@ -67,8 +67,8 @@ export class ReplStore implements Store {
     serializedState = '',
     versions = { Vue: '3.2.29', DevUI: 'latest' },
   }: ReplStoreParam) {
-    let files = getInitFiles(serializedState)
-    let mainFile = files[defaultFile] ? defaultFile : Object.keys(files)[0]
+    const files = getInitFiles(serializedState)
+    const mainFile = files[defaultFile] ? defaultFile : Object.keys(files)[0]
     this.state = reactive({
       mainFile,
       files,
@@ -174,6 +174,7 @@ export class ReplStore implements Store {
           try {
             const importMap = JSON.stringify(this.getImportMap())
             return [file, importMap]
+            // eslint-disable-next-line no-empty
           } catch { }
         }
         return [file, content]
