@@ -4,4 +4,4 @@ export {
   VersionKey,
   VersionRecord,
   PendingCompiler,
-} from './repl-store';
+} from './replStore';
