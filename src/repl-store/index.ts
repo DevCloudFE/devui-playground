@@ -130,7 +130,7 @@ export class ReplStore implements Store {
     }
   }
 
-  private getFiles() {
+  public getFiles() {
     const exported: Record<string, string> = {}
     for (const filename of Object.keys(this.state.files)) {
       exported[filename] = this.state.files[filename].code

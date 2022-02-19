@@ -27,6 +27,9 @@
           </IxSpace>
         </IxSpin>
       </template>
+      <IxButton @click="downloadProject(store)">
+        Download
+      </IxButton>
       <IxButton
         mode="text"
         @click="onShareClick"
@@ -47,7 +50,7 @@
 
 <script lang="ts" setup>
 import { useMessage } from '@idux/components/message'
-import { getDevuiVersions, getVueVersions } from '@/utils'
+import { downloadProject, getDevuiVersions, getVueVersions } from '@/utils'
 import type { ReplStore } from '@/repl-store'
 import type { VersionKey } from '@/types'
 
