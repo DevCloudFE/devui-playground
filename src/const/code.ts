@@ -14,7 +14,7 @@ const install = (app) => {
 const loadCss = () => {
   const link = document.createElement('link')
   link.rel = 'stylesheet'
-  link.href = '${genLink('vue-devui', '1.0.0-beta.14', '/style.css')}'
+  link.href = '${genLink('vue-devui', '1.0.0-rc.1', '/style.css')}'
   document.body.appendChild(link)
 }
 
@@ -30,7 +30,7 @@ export const defaultCode = `<template>
   <h1>
     Hello, DevUI!
   </h1>
-  <d-button style="margin-right: 8px">Primary</d-button>
+  <d-button variant="solid" style="margin-right: 8px">Primary</d-button>
   <d-button :disabled="true">Disabled</d-button>
 </template>
 
