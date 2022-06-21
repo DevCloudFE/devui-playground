@@ -9,10 +9,10 @@ export const genLink = (pkg: string, version?: string, file = '') => {
 
 export const getVueVersions = () => {
   const versions = fetchVersions('vue')
-  return computed(() => versions.value?.filter(ver => compare(ver, '3.2.0', '>=')))
+  return computed(() => versions.value?.filter(ver => compare(ver, '3.2.34', '>=')))
 }
 
 export const getDevuiVersions = () => {
   const versions = fetchVersions('vue-devui')
-  return computed(() => versions.value?.filter(ver => compare(ver, '1.0.0-beta.1', '>=')))
+  return computed(() => versions.value?.filter(ver => compare(ver, '1.0.0-rc.5', '>=')))
 }

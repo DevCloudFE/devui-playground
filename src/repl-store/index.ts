@@ -65,7 +65,7 @@ export class ReplStore implements Store {
 
   constructor({
     serializedState = '',
-    versions = { Vue: '3.2.29', DevUI: 'latest' },
+    versions = { Vue: 'latest', DevUI: 'latest' },
   }: ReplStoreParam) {
     const files = getInitFiles(serializedState)
     const mainFile = files[defaultFile] ? defaultFile : Object.keys(files)[0]
@@ -91,11 +91,13 @@ export class ReplStore implements Store {
 
   async initStore() {
     await this.setVueVersion(this.versions.Vue)
-    this.state.files[setupDevui] = new File(
-      setupDevui,
-      devuiCode,
-      true
-    )
+    await this.setDevuiVersion(this.versions.DevUI)
+
+    // this.state.files[setupDevui] = new File(
+    //   setupDevui,
+    //   devuiCode,
+    //   true
+    // )
 
     watchEffect(() => compileFile(this, this.state.activeFile))
 
@@ -207,6 +209,7 @@ export class ReplStore implements Store {
     switch (key) {
       case 'DevUI':
         await this.setDevuiVersion(version)
+        compileFile(this, this.state.files[setupDevui])
         break
       case 'Vue':
         await this.setVueVersion(version)
@@ -216,6 +219,15 @@ export class ReplStore implements Store {
 
   private async setDevuiVersion(version: string) {
     this.versions.DevUI = version
+
+    const href = genLink('vue-devui', version, '/style.css')
+
+    this.state.files[setupDevui] = new File(
+      setupDevui,
+      devuiCode.replace('#DEVUI_CSS_HREF#', href),
+      true,
+    )
+
     this.addDeps()
   }
 

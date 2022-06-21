@@ -22,12 +22,12 @@ export const genImportsMap = (versions: VersionRecord) => {
     '@floating-ui/dom': {
       pkg: '@floating-ui/dom',
       version: 'latest',
-      file: '/dist/floating-ui.dom.esm.min.js',
+      file: '/dist/floating-ui.dom.esm.js',
     },
     '@floating-ui/core': {
       pkg: '@floating-ui/core',
       version: 'latest',
-      file: '/dist/floating-ui.core.esm.min.js',
+      file: '/dist/floating-ui.core.esm.js',
     },
     '@vueuse/core': {
       pkg: '@vueuse/core',

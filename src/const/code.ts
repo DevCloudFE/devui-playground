@@ -1,6 +1,4 @@
 
-import { genLink } from '@/utils'
-
 export const setupDevui = 'devui.js'
 
 export const devuiCode = `
@@ -14,7 +12,7 @@ const install = (app) => {
 const loadCss = () => {
   const link = document.createElement('link')
   link.rel = 'stylesheet'
-  link.href = '${genLink('vue-devui', '1.0.0-rc.1', '/style.css')}'
+  link.href = '#DEVUI_CSS_HREF#'
   document.body.appendChild(link)
 }
 
