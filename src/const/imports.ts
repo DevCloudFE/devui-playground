@@ -4,6 +4,11 @@ export const genImportsMap = (versions: VersionRecord) => {
   const { Vue, DevUI } = versions
 
   return {
+    'devui-theme': {
+      pkg: 'devui-theme',
+      version: 'latest',
+      file: '/index.es.js',
+    },
     'vue-devui': {
       pkg: 'vue-devui',
       version: DevUI,

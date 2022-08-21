@@ -4,6 +4,7 @@ export const setupDevui = 'devui.js'
 export const devuiCode = `
 import { getCurrentInstance } from 'vue'
 import DevUI from 'vue-devui'
+import { ThemeServiceInit, infinityTheme } from 'devui-theme'
 
 const install = (app) => {
   app.use(DevUI)
@@ -22,6 +23,8 @@ const loadCss = () => {
   link.href = '#DEVUI_CSS_HREF#'
   document.body.appendChild(link)
 }
+
+ThemeServiceInit({ infinityTheme }, 'infinityTheme')
 
 export const setupDevui = () => {
   const instance = getCurrentInstance()
