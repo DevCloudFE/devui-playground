@@ -7,7 +7,7 @@
     "dev": "vite --host",
     "build": "vite build",
     "lint": "pnpm run ls-lint && pnpm run eslint",
-    "eslint": "eslint --fix ./src --ext .vue,.js,.ts,.tsx",
+    "eslint": "eslint --cache --fix ./src --ext .vue,.js,.ts,.tsx",
     "ls-lint": "ls-lint",
     "prepare": "husky install",
     "test": "echo \"Error: no test specified\" && exit 1"

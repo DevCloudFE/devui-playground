@@ -9,6 +9,13 @@ const install = (app) => {
   app.use(DevUI)
 };
 
+const loadIconCss = () => {
+  const link = document.createElement('link')
+  link.rel = 'stylesheet'
+  link.href = 'https://unpkg.com/@devui-design/icons@latest/icomoon/devui-icon.css'
+  document.body.appendChild(link)
+}
+
 const loadCss = () => {
   const link = document.createElement('link')
   link.rel = 'stylesheet'
@@ -19,6 +26,7 @@ const loadCss = () => {
 export const setupDevui = () => {
   const instance = getCurrentInstance()
   instance.appContext.app.use({ install })
+  loadIconCss()
   loadCss()
 };`
 
