@@ -2,13 +2,20 @@ import { reactive, watchEffect } from 'vue'
 import { File, compileFile } from '@vue/repl'
 import type { OutputModes, SFCOptions, Store, StoreState } from '@vue/repl'
 import type { PendingCompiler, ReplStoreParam, VersionKey, VersionRecord } from '@/types'
-import { defaultCode, defaultFile, devuiCode, genImportsMap, setupDevui } from '@/const'
+import {
+  defaultCode,
+  defaultFile,
+  defaultMainFile,
+  devuiCode,
+  genImportsMap,
+  setupDevui,
+  welcomeCode
+} from '@/const'
 import { decodeData, encodeData, genLink } from '@/utils'
 
 const getInitFiles = (serializedState = '') => {
-  let files: StoreState['files'] = {
-    [defaultFile]: new File(defaultFile, defaultCode)
-  }
+  let files: StoreState['files'] = {}
+
   if (serializedState) {
     try {
       files = {}
@@ -19,6 +26,10 @@ const getInitFiles = (serializedState = '') => {
     } catch (err) {
       console.log(err)
       console.log('Json parse error: src/repl-store/index.ts')
+    }
+  } else {
+    files = {
+      [defaultMainFile]: new File(defaultMainFile, welcomeCode),
     }
   }
 
@@ -68,9 +79,13 @@ export class ReplStore implements Store {
     versions = { Vue: 'latest', DevUI: 'latest' },
   }: ReplStoreParam) {
     const files = getInitFiles(serializedState)
-    const mainFile = files[defaultFile] ? defaultFile : Object.keys(files)[0]
+
+    const mainFile = files[defaultMainFile] ? defaultMainFile :Object.keys(files)[0]
+
+    files[defaultFile] = new File(defaultFile, defaultCode, true)
+
     this.state = reactive({
-      mainFile,
+      mainFile: defaultFile,
       files,
       activeFile: files[mainFile],
       errors: [],
@@ -78,6 +93,8 @@ export class ReplStore implements Store {
     })
     this.versions = versions
     this.initImportMap()
+
+    this.state.files[setupDevui] = new File(setupDevui, devuiCode, !import.meta.env.DEV)
   }
 
   private initImportMap() {
@@ -93,16 +110,10 @@ export class ReplStore implements Store {
     await this.setVueVersion(this.versions.Vue)
     await this.setDevuiVersion(this.versions.DevUI)
 
-    // this.state.files[setupDevui] = new File(
-    //   setupDevui,
-    //   devuiCode,
-    //   true
-    // )
-
     watchEffect(() => compileFile(this, this.state.activeFile))
 
     for (const file of Object.keys(this.state.files)) {
-      if (file !== defaultFile) {
+      if (file !== defaultMainFile) {
         compileFile(this, this.state.files[file])
       }
     }
@@ -140,10 +151,10 @@ export class ReplStore implements Store {
     return exported
   }
 
-  async setFiles(newFiles: Record<string, string>, mainFile = defaultFile) {
+  async setFiles(newFiles: Record<string, string>, mainFile = defaultMainFile) {
     const files: Record<string, File> = {}
-    if (mainFile === defaultFile && !newFiles[mainFile]) {
-      files[mainFile] = new File(mainFile, defaultCode)
+    if (mainFile === defaultMainFile && !newFiles[mainFile]) {
+      files[mainFile] = new File(mainFile, welcomeCode)
     }
     for (const [filename, file] of Object.entries(newFiles)) {
       files[filename] = new File(filename, file)
@@ -177,7 +188,8 @@ export class ReplStore implements Store {
             const importMap = JSON.stringify(this.getImportMap())
             return [file, importMap]
             // eslint-disable-next-line no-empty
-          } catch { }
+          } catch {
+          }
         }
         return [file, content]
       })
