@@ -1,4 +1,3 @@
-
 export const setupDevui = 'devui.js'
 
 export const devuiCode = `
@@ -33,9 +32,9 @@ export const setupDevui = () => {
   loadCss()
 };`
 
-export const defaultFile = 'App.vue'
+export const defaultMainFile = 'App.vue'
 
-export const defaultCode = `<template>
+export const welcomeCode = `<template>
   <h1>
     Hello, DevUI!
   </h1>
@@ -44,8 +43,20 @@ export const defaultCode = `<template>
 </template>
 
 <script setup lang="ts">
-import { setupDevui } from './devui.js'
+</script>`
+
+export const defaultFile = 'Main.vue'
+
+export const defaultCode = `<template>
+<App />
+</template>
+
+<script setup lang="ts">
+import App from './${defaultMainFile}'
+import { setupDevui } from './${setupDevui}'
 
 // don't remove
 setupDevui()
 </script>`
+
+

@@ -1,4 +1,3 @@
+export {devuiCode, defaultCode, setupDevui, defaultFile, welcomeCode, defaultMainFile} from './code'
 
-export { devuiCode, defaultCode, setupDevui, defaultFile } from './code'
-
-export { genImportsMap } from './imports'
+export {genImportsMap} from './imports'
