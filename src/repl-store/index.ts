@@ -1,7 +1,7 @@
-import {reactive, watchEffect} from 'vue'
-import {File, compileFile} from '@vue/repl'
-import type {OutputModes, SFCOptions, Store, StoreState} from '@vue/repl'
-import type {PendingCompiler, ReplStoreParam, VersionKey, VersionRecord} from '@/types'
+import { reactive, watchEffect } from 'vue'
+import { File, compileFile } from '@vue/repl'
+import type { OutputModes, SFCOptions, Store, StoreState } from '@vue/repl'
+import type { PendingCompiler, ReplStoreParam, VersionKey, VersionRecord } from '@/types'
 import {
   defaultCode,
   defaultFile,
@@ -11,7 +11,7 @@ import {
   setupDevui,
   welcomeCode
 } from '@/const'
-import {decodeData, encodeData, genLink} from '@/utils'
+import { decodeData, encodeData, genLink } from '@/utils'
 
 const getInitFiles = (serializedState = '') => {
   let files: StoreState['files'] = {}
@@ -101,7 +101,7 @@ export class ReplStore implements Store {
     if (!this.state.files['import-map.json']) {
       this.state.files['import-map.json'] = new File(
         'import-map.json',
-        JSON.stringify({imports: {}}, null, 2)
+        JSON.stringify({ imports: {} }, null, 2)
       )
     }
   }
@@ -244,7 +244,7 @@ export class ReplStore implements Store {
   }
 
   private async setVueVersion(version: string) {
-    const {compilerSfc, runtimeDom} = genVueLink(version)
+    const { compilerSfc, runtimeDom } = genVueLink(version)
 
     this.pendingCompiler = import(/* @vite-ignore */compilerSfc)
     this.compiler = await this.pendingCompiler

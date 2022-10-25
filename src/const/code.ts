@@ -58,5 +58,3 @@ import { setupDevui } from './${setupDevui}'
 // don't remove
 setupDevui()
 </script>`
-
-
